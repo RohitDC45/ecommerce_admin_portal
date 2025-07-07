@@ -1,0 +1,58 @@
+<div class="mb-4 text-end">
+  <button type="button" class="btn btn-success" (click)="addProduct()">Add Product</button>
+</div>
+
+<h2 class="mb-4">Product List</h2>
+
+<div class="row row-cols-1 g-4"> <!-- force single column vertically -->
+  <div *ngFor="let product of products" class="col">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+
+        <!-- Editing form OR read-only content -->
+        <ng-container *ngIf="editingProductId === product._id; else productView">
+
+          <h5 class="card-title mb-3">Editing: {{ product.name }}</h5>
+
+          <div class="mb-3">
+            <label class="form-label">SKU:</label>
+            <input type="text" class="form-control" [(ngModel)]="editingProduct.sku">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Name:</label>
+            <input type="text" class="form-control" [(ngModel)]="editingProduct.name">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Price:</label>
+            <input type="number" class="form-control" [(ngModel)]="editingProduct.price">
+          </div>
+
+          <div class="d-flex flex-column gap-2 align-items-end">
+            <button type="button" class="btn btn-success btn-sm" (click)="saveUpdatedProduct()">Save</button>
+            <button type="button" class="btn btn-secondary btn-sm" (click)="cancelEditing()">Cancel</button>
+          </div>
+
+        </ng-container>
+
+        <!-- Read-only view -->
+        <ng-template #productView>
+          <h5 class="card-title">{{ product.name }} <small class="text-muted">({{ product.sku }})</small></h5>
+          <p class="card-text">Price: ${{ product.price }}</p>
+          <div class="images mb-3 d-flex flex-wrap gap-2">
+            <img *ngFor="let image of product.images"
+                 [src]="'http://localhost:3002/uploads/createProduct' + image.filename"
+                 class="img-thumbnail object-fit-cover"
+                 style="width: 150px; height: 150px;">
+          </div>
+          <div class="d-flex flex-column gap-2 align-items-end">
+            <button type="button" class="btn btn-warning btn-sm" (click)="startEditing(product)">Update</button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="deleteProduct(product)">Delete</button>
+          </div>
+        </ng-template>
+
+      </div>
+    </div>
+  </div>
+</div>

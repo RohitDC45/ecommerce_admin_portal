@@ -1,0 +1,7 @@
+form div {
+  margin-bottom: 10px;
+}
+
+input[type="text"], input[type="number"] {
+  width: 200px;
+}
